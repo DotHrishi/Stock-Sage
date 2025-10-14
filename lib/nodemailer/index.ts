@@ -31,13 +31,14 @@ export const sendNewsSummaryEmail = async (
             console.log(`Preparing email for ${email} with date: ${date}`);
             
             const htmlTemplate = NEWS_SUMMARY_EMAIL_TEMPLATE
-            .replace('{{data}}', date)
-            .replace('{{newsContent}}', newsContent);
+              .replace('{{date}}', date)
+              .replace('{{newsContent}}', newsContent);
 
             const mailOptions = {
-                from: `"StockSage News" <kalihrishikesh@gmail.com>`,
+                // Use the authenticated sender to improve deliverability
+                from: `"StockSage News" <${process.env.NODEMAILER_EMAIL!}>`,
                 to: email,
-                subject: `Market News Summary Today = ${date}`,
+                subject: `Market News Summary Today - ${date}`,
                 text: `Today market news summary from StockSage`,
                 html: htmlTemplate,
             };
@@ -50,4 +51,3 @@ export const sendNewsSummaryEmail = async (
             throw error;
         }
 }
-
