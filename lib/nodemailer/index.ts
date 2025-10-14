@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { WELCOME_EMAIL_TEMPLATE } from "./templates";
+import { NEWS_SUMMARY_EMAIL_TEMPLATE, WELCOME_EMAIL_TEMPLATE } from "./templates";
 
 export const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -23,4 +23,31 @@ export const sendWelcomeEmail = async ({email, name, intro}: WelcomeEmailData) =
     }
 
     await transporter.sendMail(mailOptions);
+}
+
+export const sendNewsSummaryEmail = async (
+    {email, date, newsContent}: {email: string; date: string; newsContent: string}): Promise<void> => {
+        try {
+            console.log(`Preparing email for ${email} with date: ${date}`);
+            
+            const htmlTemplate = NEWS_SUMMARY_EMAIL_TEMPLATE
+              .replace('{{date}}', date)
+              .replace('{{newsContent}}', newsContent);
+
+            const mailOptions = {
+                // Use the authenticated sender to improve deliverability
+                from: `"StockSage News" <${process.env.NODEMAILER_EMAIL!}>`,
+                to: email,
+                subject: `Market News Summary Today - ${date}`,
+                text: `Today market news summary from StockSage`,
+                html: htmlTemplate,
+            };
+
+            console.log(`Sending email to ${email}...`);
+            const result = await transporter.sendMail(mailOptions);
+            console.log(`Email sent successfully to ${email}:`, result.messageId);
+        } catch (error) {
+            console.error(`Error sending email to ${email}:`, error);
+            throw error;
+        }
 }
