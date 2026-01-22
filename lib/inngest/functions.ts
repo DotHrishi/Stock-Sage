@@ -1,5 +1,5 @@
 import { getAllUsersForNewsEmail } from "../actions/user.actions";
-import { sendNewsSummaryEmail, sendWelcomeEmail } from "../nodemailer/index";
+import { sendNewsSummaryEmail, sendWelcomeEmail } from "../nodemailer";
 import { inngest } from "./client";
 import {
   NEWS_SUMMARY_EMAIL_PROMPT,
@@ -127,8 +127,7 @@ export const sendDailyNewsSummary = inngest.createFunction(
         const newsContent = (part && "text" in part ? part.text : null) || null;
 
         console.log(
-          `Generated news content for ${user.email}: ${
-            newsContent ? "SUCCESS" : "FAILED"
+          `Generated news content for ${user.email}: ${newsContent ? "SUCCESS" : "FAILED"
           }`
         );
 
