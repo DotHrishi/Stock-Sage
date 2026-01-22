@@ -32,6 +32,7 @@ declare global {
         validation?: RegisterOptions;
         disabled?: boolean;
         value?: string;
+        autoComplete?: string;
     };
 
     type Option = {
@@ -217,4 +218,4 @@ declare global {
     };
 }
 
-export {};
+export { };
