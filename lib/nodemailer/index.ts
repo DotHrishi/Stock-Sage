@@ -15,10 +15,10 @@ export const sendWelcomeEmail = async ({email, name, intro}: WelcomeEmailData) =
     .replace('{{intro}}',intro)
 
     const mailOptions = {
-        from: '"StockSage" <users@stocksage.pro>',
+        from: '"BitBull" <users@bitbull.pro>',
         to: email,
-        subject: 'Welcome to StockSage! Your stock market companion is ready.',
-        text: 'Thanks for joining StockSage',
+        subject: 'Welcome to BitBull! Your stock market companion is ready.',
+        text: 'Thanks for joining BitBull',
         html: htmlTemplate,
     }
 
@@ -36,10 +36,10 @@ export const sendNewsSummaryEmail = async (
 
             const mailOptions = {
                 // Use the authenticated sender to improve deliverability
-                from: `"StockSage News" <${process.env.NODEMAILER_EMAIL!}>`,
+                from: `"BitBull News" <${process.env.NODEMAILER_EMAIL!}>`,
                 to: email,
                 subject: `Market News Summary Today - ${date}`,
-                text: `Today market news summary from StockSage`,
+                text: `Today market news summary from BitBull`,
                 html: htmlTemplate,
             };
 

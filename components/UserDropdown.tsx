@@ -8,13 +8,11 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { LogOut } from "lucide-react";
-import NavItems from "./NavItems";
+import { LogOut, Settings, User as UserIcon, ChevronsUpDown } from "lucide-react";
 import { signOut } from "@/lib/actions/auth_actions";
 
-const UserDropdown = ({ user, initialStocks }: { user: User; initialStocks: StockWithWatchlistStatus[] }) => {
+const UserDropdown = ({ user, initialStocks, isSidebar = false }: { user: User; initialStocks: StockWithWatchlistStatus[], isSidebar?: boolean }) => {
     const router = useRouter();
 
     const handleSignOut = async () => {
@@ -22,49 +20,121 @@ const UserDropdown = ({ user, initialStocks }: { user: User; initialStocks: Stoc
         router.push("/sign-in");
     }
 
+    const initials = user.name
+        .split(' ')
+        .map((n: string) => n[0])
+        .slice(0, 2)
+        .join('')
+        .toUpperCase();
+
+    if (isSidebar) {
+        return (
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <button className="flex items-center gap-3 w-full p-2 rounded-xl hover:bg-slate-800/50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/50 group text-left">
+                        <Avatar className="h-9 w-9 bg-blue-900 border border-blue-700">
+                            <AvatarImage src="" />
+                            <AvatarFallback className="bg-blue-900 text-blue-200 text-xs font-semibold">
+                                {initials}
+                            </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-slate-200 truncate group-hover:text-white transition-colors">{user.name}</p>
+                            <p className="text-xs text-slate-500 truncate">{user.email}</p>
+                        </div>
+                        <ChevronsUpDown className="w-4 h-4 text-slate-500 group-hover:text-slate-400" />
+                    </button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent
+                    side="right"
+                    align="end"
+                    sideOffset={16}
+                    className="w-56 bg-slate-900 border border-slate-800 shadow-2xl shadow-black/50 rounded-xl p-1"
+                >
+                    <DropdownMenuItem className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer focus:bg-slate-800 focus:text-white my-0.5">
+                        <UserIcon className="h-4 w-4 text-slate-400" />
+                        <span className="text-sm">Profile</span>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer focus:bg-slate-800 focus:text-white my-0.5">
+                        <Settings className="h-4 w-4 text-slate-400" />
+                        <span className="text-sm">Settings</span>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuSeparator className="bg-slate-800 mx-1" />
+
+                    <DropdownMenuItem
+                        onClick={handleSignOut}
+                        className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors cursor-pointer focus:bg-red-500/10 focus:text-red-300 my-0.5"
+                    >
+                        <LogOut className="h-4 w-4" />
+                        <span className="text-sm font-medium">Sign Out</span>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        )
+    }
+
+    // Fallback for non-sidebar (e.g. older design or mobile)
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center gap-3 text-gray-400 hover:text-yellow-500">
-                    <Avatar className="h-8 w-8">
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback className="bg-yellow-500 text-yellow-900 text-sm font-bold">
-                            {user.name[0]}
+                <button className="relative flex items-center gap-2 pl-1 pr-3 py-1 rounded-full bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-300 group">
+                    <Avatar className="h-7 w-7 bg-slate-200">
+                        <AvatarImage src="" />
+                        <AvatarFallback className="bg-slate-800 text-white text-xs font-semibold">
+                            {initials}
                         </AvatarFallback>
                     </Avatar>
-                    <div className="hidden md:flex flex-col items-start">
-                        <span className="text-base font-medium text-gray-400">{user.name}</span>
-                    </div>
-                </Button>
+                    <span className="hidden md:block text-sm font-medium text-slate-700 group-hover:text-slate-900 transition-colors max-w-[120px] truncate">
+                        {user.name}
+                    </span>
+                    <ChevronsUpDown className="h-3 w-3 text-slate-400 hidden md:block group-hover:text-slate-600 transition-colors" />
+                </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="text-gray-400">
-                <DropdownMenuLabel>
-                    <div className="flex relative items-center gap-3 py-2">
-                        <Avatar className="h-8 w-8">
-                            <AvatarImage src="https://github.com/shadcn.png" />
-                            <AvatarFallback className="bg-yellow-500 text-yellow-900 text-sm font-bold">
-                                {user.name[0]}
+
+            <DropdownMenuContent
+                align="end"
+                className="w-60 bg-white border border-slate-200 shadow-lg rounded-xl p-1 mt-2"
+            >
+                {/* User info header */}
+                <DropdownMenuLabel className="px-3 py-3">
+                    <div className="flex items-center gap-3">
+                        <Avatar className="h-10 w-10">
+                            <AvatarImage src="" />
+                            <AvatarFallback className="bg-slate-800 text-white font-bold">
+                                {initials}
                             </AvatarFallback>
                         </Avatar>
-                        <div className="flex flex-col">
-                            <span className="text-base font-medium text-gray-400">
-                                {user.name}
-                            </span>
-                            <span className="text-sm text-gray-500">
-                                {user.email}
-                            </span>
+                        <div className="flex flex-col min-w-0">
+                            <span className="text-sm font-semibold text-slate-900 truncate">{user.name}</span>
+                            <span className="text-xs text-slate-500 truncate">{user.email}</span>
                         </div>
                     </div>
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator className="bg-gray-600" />
-                <DropdownMenuItem onClick={handleSignOut} className="text-gray-100 text-md font-medium focus:bg-transparent focus:text-yellow-500 transition-colors cursor-pointer">
-                    <LogOut className="h-4 w-4 mr-2 hidden sm:block" />
-                    Log Out
+
+                <DropdownMenuSeparator className="bg-slate-100 mx-1" />
+
+                <DropdownMenuItem className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer focus:bg-slate-50 focus:text-slate-900 my-0.5">
+                    <UserIcon className="h-4 w-4" />
+                    <span className="text-sm">Profile</span>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator className="hidden sm:block bg-gray-600" />
-                <nav className="sm:hidden">
-                    <NavItems initialStocks={initialStocks} />
-                </nav>
+
+                <DropdownMenuItem className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer focus:bg-slate-50 focus:text-slate-900 my-0.5">
+                    <Settings className="h-4 w-4" />
+                    <span className="text-sm">Settings</span>
+                </DropdownMenuItem>
+
+                <DropdownMenuSeparator className="bg-slate-100 mx-1" />
+
+                <DropdownMenuItem
+                    onClick={handleSignOut}
+                    className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer focus:bg-red-50 focus:text-red-700 my-0.5"
+                >
+                    <LogOut className="h-4 w-4" />
+                    <span className="text-sm font-medium">Sign Out</span>
+                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     )

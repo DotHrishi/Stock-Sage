@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner"
+import { ThemeProvider } from "@/components/ThemeProvider"
 
 
 const geistSans = Geist({
@@ -15,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Stock Sage",
-  description: "StockSage is an AI-powered stock market analysis platform that helps traders and investors make smarter decisions. Using real-time data, predictive analytics, and machine learning models, StockSage provides insights on market trends, stock performance, and future price movements — all in a sleek, modern interface.",
+  title: "BitBull",
+  description: "BitBull is an AI-powered stock market analysis platform that helps traders and investors make smarter decisions. Using real-time data, predictive analytics, and machine learning models, BitBull provides insights on market trends, stock performance, and future price movements — all in a sleek, modern interface.",
 };
 
 export default function RootLayout({
@@ -25,13 +26,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
-        {children}
-        <Toaster />
+        <ThemeProvider>
+          {children}
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
