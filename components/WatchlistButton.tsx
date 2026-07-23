@@ -161,6 +161,7 @@ export const WatchlistButton = ({
                                         key={group._id}
                                         checked={watchlistedGroupIds.includes(group._id)}
                                         onCheckedChange={(checked) => handleToggle({ preventDefault: () => {}, stopPropagation: () => {} } as any, group._id)}
+                                        onSelect={(e) => e.preventDefault()}
                                         disabled={isLoadingToggle === group._id}
                                         className="text-slate-700 focus:bg-slate-50 focus:text-slate-900 cursor-pointer"
                                     >
