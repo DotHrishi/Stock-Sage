@@ -1,5 +1,6 @@
 import SearchCommand from "./SearchCommand"
 import MobileNav from "./MobileNav"
+import { Logo } from "./Logo"
 
 const Header = ({ user, initialStocks }: { user: User; initialStocks: StockWithWatchlistStatus[] }) => {
   return (
@@ -9,9 +10,7 @@ const Header = ({ user, initialStocks }: { user: User; initialStocks: StockWithW
         {/* Mobile Nav & Logo (Only visible on small screens) */}
         <div className="flex items-center gap-4 md:hidden">
           <MobileNav initialStocks={initialStocks} user={user} />
-          <span className="text-xl font-bold tracking-tight text-slate-900">
-            BitBull
-          </span>
+          <Logo variant="dark" />
         </div>
 
         {/* Global Search Bar (Prominent) */}

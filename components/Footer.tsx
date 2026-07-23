@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { TrendingUp, Github, Twitter, Linkedin, Activity, BarChart, Shield } from 'lucide-react'
+import { Logo } from "./Logo"
 
 export const Footer = () => {
     return (
@@ -12,11 +13,8 @@ export const Footer = () => {
                     
                     {/* Brand Section (Takes up more space) */}
                     <div className="md:col-span-5 pr-8">
-                        <Link href="/" className="flex items-center gap-2.5 mb-5 group w-fit">
-                            <div className="bg-gradient-to-tr from-blue-600 to-indigo-600 p-2 rounded-xl shadow-sm shadow-blue-500/20 group-hover:shadow-blue-500/40 group-hover:scale-105 transition-all duration-300">
-                                <TrendingUp className="h-4 w-4 text-white" />
-                            </div>
-                            <span className="text-xl font-bold tracking-tight text-white group-hover:text-blue-400 transition-colors">BitBull</span>
+                        <Link href="/" className="inline-block mb-5 group transition-transform hover:scale-[1.02]">
+                            <Logo variant="light" />
                         </Link>
                         <p className="text-sm text-slate-400 leading-relaxed max-w-sm mb-6">
                             Your intelligent, real-time companion for navigating the Indian stock market. We turn complex financial data into actionable, beautiful insights.

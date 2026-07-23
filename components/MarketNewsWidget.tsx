@@ -30,10 +30,10 @@ export const MarketNewsWidget = () => {
         setLoading(false)
     }
 
-    // Initial fetch
+    // Fetch news when page changes (including initial load)
     useEffect(() => {
-        fetchNews(1)
-    }, [])
+        fetchNews(page)
+    }, [page])
 
     const lastArticleRef = useCallback((node: HTMLAnchorElement | null) => {
         if (loading) return
@@ -41,11 +41,7 @@ export const MarketNewsWidget = () => {
         
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMore) {
-                setPage(prev => {
-                    const nextPage = prev + 1
-                    fetchNews(nextPage)
-                    return nextPage
-                })
+                setPage(prev => prev + 1)
             }
         }, { threshold: 1.0 })
         

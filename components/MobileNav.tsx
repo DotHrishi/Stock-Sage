@@ -6,6 +6,7 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
+import { Logo } from "./Logo"
 import { Menu, X, LayoutDashboard, Bookmark, LogOut, BarChart3 } from "lucide-react"
 import NavItems from "./NavItems"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -45,12 +46,7 @@ const MobileNav = ({ initialStocks, user }: { initialStocks: StockWithWatchlistS
 
                 {/* Header */}
                 <div className="flex items-center gap-2.5 px-5 py-4 border-b border-slate-100">
-                    <div className="flex items-center justify-center w-8 h-8 rounded bg-slate-900 text-white shadow-sm">
-                        <BarChart3 className="w-5 h-5" />
-                    </div>
-                    <span className="text-xl font-bold text-slate-900">
-                        BitBull
-                    </span>
+                    <Logo variant="dark" />
                 </div>
 
                 {/* Search */}

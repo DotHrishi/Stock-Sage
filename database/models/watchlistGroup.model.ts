@@ -18,5 +18,8 @@ const WatchlistGroupSchema = new Schema<WatchlistGroup>(
 // Prevent duplicate names per user
 WatchlistGroupSchema.index({ userId: 1, name: 1 }, { unique: true });
 
-export const WatchlistGroup: Model<WatchlistGroup> =
-  (models?.WatchlistGroup as Model<WatchlistGroup>) || model<WatchlistGroup>('WatchlistGroup', WatchlistGroupSchema);
+if (models?.WatchlistGroup) {
+  delete models.WatchlistGroup;
+}
+
+export const WatchlistGroup: Model<WatchlistGroup> = model<WatchlistGroup>('WatchlistGroup', WatchlistGroupSchema);

@@ -123,7 +123,7 @@ export default async function WatchlistPage({
                                             <WatchlistButton 
                                                 symbol={stock.symbol} 
                                                 company={stock.company} 
-                                                initialWatchlistedGroupIds={activeGroupId ? [activeGroupId] : []}
+                                                initialWatchlistedGroupIds={stock.watchlistedGroupIds || []}
                                             />
                                         </td>
                                     </tr>

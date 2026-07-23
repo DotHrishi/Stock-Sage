@@ -22,5 +22,8 @@ const WatchlistSchema = new Schema<WatchlistItem>(
 // Prevent duplicate symbols per user per group
 WatchlistSchema.index({ userId: 1, groupId: 1, symbol: 1 }, { unique: true });
 
-export const Watchlist: Model<WatchlistItem> =
-  (models?.Watchlist as Model<WatchlistItem>) || model<WatchlistItem>('Watchlist', WatchlistSchema);
+if (models?.Watchlist) {
+  delete models.Watchlist;
+}
+
+export const Watchlist: Model<WatchlistItem> = model<WatchlistItem>('Watchlist', WatchlistSchema);

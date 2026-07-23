@@ -43,9 +43,18 @@ export async function getWatchlistGroups(): Promise<{ _id: string, name: string 
               userId,
               name: 'My Watchlist'
           });
-          groups = [defaultGroup.toObject()];
+          return [{
+            _id: defaultGroup._id.toString(),
+            name: defaultGroup.name
+          }];
       }
     }
+
+    // Quick fix for any items orphaned due to schema cache issue
+    await Watchlist.updateMany(
+      { userId: session.user.id, groupId: { $exists: false } },
+      { $set: { groupId: groups[0]._id } }
+    );
 
     return groups.map(g => ({
       _id: g._id.toString(),

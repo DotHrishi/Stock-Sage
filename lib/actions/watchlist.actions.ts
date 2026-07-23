@@ -67,7 +67,7 @@ export async function toggleWatchlist(symbol: string, company: string, groupId: 
   }
 }
 
-export async function getWatchlistStocks(groupId?: string): Promise<{ symbol: string, company: string }[]> {
+export async function getWatchlistStocks(groupId?: string): Promise<{ symbol: string, company: string, watchlistedGroupIds: string[] }[]> {
   try {
     const { auth } = await import('@/lib/better-auth/auth');
     const { headers } = await import('next/headers');
@@ -84,7 +84,23 @@ export async function getWatchlistStocks(groupId?: string): Promise<{ symbol: st
     if (groupId) query.groupId = groupId;
 
     const items = await Watchlist.find(query, { symbol: 1, company: 1 }).sort({ addedAt: -1 }).lean();
-    return items.map(i => ({ symbol: i.symbol, company: i.company }));
+    
+    if (items.length === 0) return [];
+
+    const symbols = items.map(i => i.symbol);
+    const allMappings = await Watchlist.find({ userId: session.user.id, symbol: { $in: symbols } }, { symbol: 1, groupId: 1 }).lean();
+    
+    const groupIdsBySymbol: Record<string, string[]> = {};
+    allMappings.forEach(mapping => {
+        if (!groupIdsBySymbol[mapping.symbol]) groupIdsBySymbol[mapping.symbol] = [];
+        if (mapping.groupId) groupIdsBySymbol[mapping.symbol].push(mapping.groupId.toString());
+    });
+
+    return items.map(i => ({ 
+        symbol: i.symbol, 
+        company: i.company,
+        watchlistedGroupIds: groupIdsBySymbol[i.symbol] || []
+    }));
   } catch (err) {
     console.error('getWatchlistStocks error:', err);
     return [];
