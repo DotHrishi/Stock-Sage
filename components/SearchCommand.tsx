@@ -123,7 +123,7 @@ export default function SearchCommand({
                   <WatchlistButton 
                     symbol={stock.symbol} 
                     company={stock.name} 
-                    initialIsWatchlisted={stock.isInWatchlist} 
+                    initialWatchlistedGroupIds={stock.watchlistedGroupIds || []} 
                   />
                 </li>
               ))}

@@ -21,16 +21,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
             {/* Right Side Background Area */}
             <section className="hidden lg:flex flex-1 relative bg-slate-900 items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
-                <div className="relative z-10 flex flex-col items-center text-center p-12">
-                    <div className="flex items-center justify-center w-16 h-16 rounded-lg bg-white text-slate-900 shadow-2xl mb-6">
-                        <BarChart3 className="w-10 h-10" />
-                    </div>
-                    <h2 className="text-4xl font-bold text-white mb-4 tracking-tight">Smarter Stock Analysis</h2>
-                    <p className="text-lg text-slate-300 max-w-md leading-relaxed">
-                        Join BitBull to track your favorite stocks, monitor trends in real-time, and make data-driven investment decisions.
-                    </p>
-                </div>
+                <Image 
+                    src="/assets/images/auth-bg.jpg" 
+                    alt="Stock Analysis Dashboard" 
+                    fill 
+                    className="object-cover opacity-80"
+                    priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
             </section>
         </main>
     )

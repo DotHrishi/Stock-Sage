@@ -11,7 +11,7 @@ export function ThemeToggle() {
     // Avoid hydration mismatch
     useEffect(() => setMounted(true), [])
     if (!mounted) return (
-        <div className="h-9 w-9 rounded-lg bg-white/[0.05] border border-white/[0.08] animate-pulse" />
+        <div className="h-9 w-9 rounded-sm bg-white/[0.05] border border-white/[0.08] animate-pulse" />
     )
 
     const isDark = theme === 'dark'
@@ -21,7 +21,7 @@ export function ThemeToggle() {
             onClick={() => setTheme(isDark ? 'light' : 'dark')}
             aria-label="Toggle theme"
             className={`
-                relative flex items-center justify-center h-9 w-9 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-500/40
+                relative flex items-center justify-center h-9 w-9 rounded-sm border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-500/40
                 ${isDark
                     ? 'bg-white/[0.05] border-white/[0.08] text-gray-400 hover:bg-white/[0.1] hover:text-yellow-400 hover:border-yellow-500/30'
                     : 'bg-gray-100 border-gray-200 text-gray-600 hover:bg-yellow-50 hover:text-yellow-600 hover:border-yellow-300'

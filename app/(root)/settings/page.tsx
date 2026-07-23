@@ -14,7 +14,7 @@ export default async function SettingsPage() {
                 <p className="text-slate-500 mt-2">Customize your dashboard by selecting the sectors you are most interested in.</p>
             </div>
             
-            <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 sm:p-8">
+            <div className="mt-6">
                 <SettingsForm initialSectors={initialSectors} />
             </div>
         </div>

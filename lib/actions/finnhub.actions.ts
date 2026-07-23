@@ -166,7 +166,7 @@ export const searchStocks = cache(async (query?: string): Promise<StockWithWatch
           name,
           exchange,
           type,
-          isInWatchlist: false,
+          watchlistedGroupIds: [],
         };
         return item;
       })

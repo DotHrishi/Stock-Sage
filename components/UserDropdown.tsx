@@ -31,10 +31,10 @@ const UserDropdown = ({ user, initialStocks, isSidebar = false }: { user: User; 
         return (
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <button className="flex items-center gap-3 w-full p-2 rounded-xl hover:bg-slate-800/50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/50 group text-left">
-                        <Avatar className="h-9 w-9 bg-blue-900 border border-blue-700">
+                    <button className="flex items-center gap-3 w-full p-2 rounded-sm hover:bg-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-white/20 group text-left">
+                        <Avatar className="h-9 w-9 bg-gray-900 border border-gray-800">
                             <AvatarImage src="" />
-                            <AvatarFallback className="bg-blue-900 text-blue-200 text-xs font-semibold">
+                            <AvatarFallback className="bg-gray-900 text-white text-xs font-semibold">
                                 {initials}
                             </AvatarFallback>
                         </Avatar>
@@ -47,26 +47,14 @@ const UserDropdown = ({ user, initialStocks, isSidebar = false }: { user: User; 
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent
-                    side="right"
-                    align="end"
+                    side="top"
+                    align="center"
                     sideOffset={16}
-                    className="w-56 bg-slate-900 border border-slate-800 shadow-2xl shadow-black/50 rounded-xl p-1"
+                    className="w-56 bg-white border border-slate-200 shadow-lg rounded-sm p-1"
                 >
-                    <DropdownMenuItem className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer focus:bg-slate-800 focus:text-white my-0.5">
-                        <UserIcon className="h-4 w-4 text-slate-400" />
-                        <span className="text-sm">Profile</span>
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer focus:bg-slate-800 focus:text-white my-0.5">
-                        <Settings className="h-4 w-4 text-slate-400" />
-                        <span className="text-sm">Settings</span>
-                    </DropdownMenuItem>
-
-                    <DropdownMenuSeparator className="bg-slate-800 mx-1" />
-
                     <DropdownMenuItem
                         onClick={handleSignOut}
-                        className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors cursor-pointer focus:bg-red-500/10 focus:text-red-300 my-0.5"
+                        className="flex items-center gap-2.5 px-3 py-2.5 rounded-sm text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer focus:bg-red-50 focus:text-red-700 my-0.5"
                     >
                         <LogOut className="h-4 w-4" />
                         <span className="text-sm font-medium">Sign Out</span>
@@ -96,7 +84,7 @@ const UserDropdown = ({ user, initialStocks, isSidebar = false }: { user: User; 
 
             <DropdownMenuContent
                 align="end"
-                className="w-60 bg-white border border-slate-200 shadow-lg rounded-xl p-1 mt-2"
+                className="w-60 bg-white border border-slate-200 shadow-lg rounded-sm p-1 mt-2"
             >
                 {/* User info header */}
                 <DropdownMenuLabel className="px-3 py-3">
@@ -116,21 +104,9 @@ const UserDropdown = ({ user, initialStocks, isSidebar = false }: { user: User; 
 
                 <DropdownMenuSeparator className="bg-slate-100 mx-1" />
 
-                <DropdownMenuItem className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer focus:bg-slate-50 focus:text-slate-900 my-0.5">
-                    <UserIcon className="h-4 w-4" />
-                    <span className="text-sm">Profile</span>
-                </DropdownMenuItem>
-
-                <DropdownMenuItem className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer focus:bg-slate-50 focus:text-slate-900 my-0.5">
-                    <Settings className="h-4 w-4" />
-                    <span className="text-sm">Settings</span>
-                </DropdownMenuItem>
-
-                <DropdownMenuSeparator className="bg-slate-100 mx-1" />
-
                 <DropdownMenuItem
                     onClick={handleSignOut}
-                    className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer focus:bg-red-50 focus:text-red-700 my-0.5"
+                    className="flex items-center gap-2.5 px-3 py-2.5 rounded-sm text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer focus:bg-red-50 focus:text-red-700 my-0.5"
                 >
                     <LogOut className="h-4 w-4" />
                     <span className="text-sm font-medium">Sign Out</span>

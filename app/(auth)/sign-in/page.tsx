@@ -66,7 +66,7 @@ const SignUp = () => {
                     validation={{ required: "Password is required", minLength: { value: 8, message: "Password must be at least 8 characters long" } }}
                 />
 
-                <Button type="submit" disabled={isSubmitting} className='yellow-btn w-full mt-5'>
+                <Button type="submit" disabled={isSubmitting} className='black-btn w-full mt-5'>
                     {isSubmitting ? 'Signing In.....' : 'Sign In'}
                 </Button>
 

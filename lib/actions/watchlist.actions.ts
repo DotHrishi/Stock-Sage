@@ -27,7 +27,7 @@ export async function getWatchlistSymbolsByEmail(email: string): Promise<string[
   }
 }
 
-export async function toggleWatchlist(symbol: string, company: string): Promise<{ success: boolean, isAdded: boolean, message?: string }> {
+export async function toggleWatchlist(symbol: string, company: string, groupId: string): Promise<{ success: boolean, isAdded: boolean, message?: string }> {
   try {
     const { auth } = await import('@/lib/better-auth/auth');
     const { headers } = await import('next/headers');
@@ -47,7 +47,7 @@ export async function toggleWatchlist(symbol: string, company: string): Promise<
 
     await connectToDatabase();
 
-    const existing = await Watchlist.findOne({ userId, symbol: symbol.toUpperCase() });
+    const existing = await Watchlist.findOne({ userId, groupId, symbol: symbol.toUpperCase() });
     
     if (existing) {
       await Watchlist.deleteOne({ _id: existing._id });
@@ -55,6 +55,7 @@ export async function toggleWatchlist(symbol: string, company: string): Promise<
     } else {
       await Watchlist.create({
         userId,
+        groupId,
         symbol: symbol.toUpperCase(),
         company
       });
@@ -66,7 +67,7 @@ export async function toggleWatchlist(symbol: string, company: string): Promise<
   }
 }
 
-export async function getWatchlistStocks(): Promise<{ symbol: string, company: string }[]> {
+export async function getWatchlistStocks(groupId?: string): Promise<{ symbol: string, company: string }[]> {
   try {
     const { auth } = await import('@/lib/better-auth/auth');
     const { headers } = await import('next/headers');
@@ -79,10 +80,34 @@ export async function getWatchlistStocks(): Promise<{ symbol: string, company: s
     
     await connectToDatabase();
     
-    const items = await Watchlist.find({ userId: session.user.id }, { symbol: 1, company: 1 }).sort({ addedAt: -1 }).lean();
+    const query: any = { userId: session.user.id };
+    if (groupId) query.groupId = groupId;
+
+    const items = await Watchlist.find(query, { symbol: 1, company: 1 }).sort({ addedAt: -1 }).lean();
     return items.map(i => ({ symbol: i.symbol, company: i.company }));
   } catch (err) {
     console.error('getWatchlistStocks error:', err);
+    return [];
+  }
+}
+
+export async function getWatchlistedGroupIds(symbol: string): Promise<string[]> {
+  try {
+    const { auth } = await import('@/lib/better-auth/auth');
+    const { headers } = await import('next/headers');
+    
+    const session = await auth.api.getSession({
+      headers: await headers()
+    });
+
+    if (!session?.user) return [];
+    
+    await connectToDatabase();
+    
+    const existing = await Watchlist.find({ userId: session.user.id, symbol: symbol.toUpperCase() }).lean();
+    return existing.map(e => String(e.groupId || ''));
+  } catch (err) {
+    console.error('getWatchlistedGroupIds error:', err);
     return [];
   }
 }

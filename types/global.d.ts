@@ -82,7 +82,7 @@ declare global {
     };
 
     type StockWithWatchlistStatus = Stock & {
-        isInWatchlist: boolean;
+        watchlistedGroupIds: string[];
     };
 
     type FinnhubSearchResult = {
@@ -106,10 +106,11 @@ declare global {
     type WatchlistButtonProps = {
         symbol: string;
         company: string;
-        isInWatchlist: boolean;
+        initialWatchlistedGroupIds: string[];
+        availableGroups: { _id: string; name: string }[];
         showTrashIcon?: boolean;
         type?: 'button' | 'icon';
-        onWatchlistChange?: (symbol: string, isAdded: boolean) => void;
+        onWatchlistChange?: (symbol: string, groupId: string, isAdded: boolean) => void;
     };
 
     type QuoteData = {

@@ -6,7 +6,7 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
-import { Menu, X, LayoutDashboard, Star, LogOut, BarChart3 } from "lucide-react"
+import { Menu, X, LayoutDashboard, Bookmark, LogOut, BarChart3 } from "lucide-react"
 import NavItems from "./NavItems"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { signOut } from "@/lib/actions/auth_actions"
@@ -33,7 +33,7 @@ const MobileNav = ({ initialStocks, user }: { initialStocks: StockWithWatchlistS
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-                <button className="md:hidden flex items-center justify-center h-9 w-9 rounded-md bg-white border border-slate-200 hover:bg-slate-50 transition-all duration-200 text-slate-500 hover:text-slate-900 focus:outline-none">
+                <button className="md:hidden flex items-center justify-center h-9 w-9 rounded-sm bg-white border border-slate-200 hover:bg-slate-50 transition-all duration-200 text-slate-500 hover:text-slate-900 focus:outline-none">
                     {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
                 </button>
             </SheetTrigger>
@@ -86,7 +86,7 @@ const MobileNav = ({ initialStocks, user }: { initialStocks: StockWithWatchlistS
                     </div>
                     <button
                         onClick={handleSignOut}
-                        className="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-md text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors text-sm font-medium"
+                        className="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-sm text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors text-sm font-medium"
                     >
                         <LogOut className="h-4 w-4" />
                         Sign Out

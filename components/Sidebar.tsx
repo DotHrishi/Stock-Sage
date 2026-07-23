@@ -5,15 +5,15 @@ import { BarChart3 } from "lucide-react"
 
 const Sidebar = ({ user, initialStocks }: { user: User; initialStocks: StockWithWatchlistStatus[] }) => {
   return (
-    <aside className="hidden md:flex flex-col w-64 fixed inset-y-0 left-0 bg-slate-900 border-r border-slate-800 z-50">
+    <aside className="hidden md:flex flex-col w-64 fixed inset-y-0 left-0 bg-black border-r border-gray-900 z-50">
       {/* Logo Section */}
-      <div className="h-20 flex items-center px-6 border-b border-slate-800/50">
+      <div className="h-20 flex items-center px-6 border-b border-gray-900">
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all group-hover:scale-105 group-hover:shadow-[0_0_25px_rgba(37,99,235,0.6)]">
+          <div className="flex items-center justify-center w-10 h-10 rounded-sm bg-white text-black shadow-lg transition-all group-hover:scale-105">
             <BarChart3 className="w-6 h-6" />
           </div>
           <span className="text-2xl font-bold tracking-tight text-white">
-            Bit<span className="text-blue-400">Bull</span>
+            Bit<span className="text-gray-400">Bull</span>
           </span>
         </Link>
       </div>
@@ -25,7 +25,7 @@ const Sidebar = ({ user, initialStocks }: { user: User; initialStocks: StockWith
       </div>
 
       {/* Bottom User Section */}
-      <div className="p-4 border-t border-slate-800/50 bg-slate-900/50">
+      <div className="p-4 border-t border-gray-900 bg-black">
         <UserDropdown user={user} initialStocks={initialStocks} isSidebar={true} />
       </div>
     </aside>

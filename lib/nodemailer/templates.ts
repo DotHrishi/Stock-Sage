@@ -421,7 +421,7 @@ export const STOCK_ALERT_UPPER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                                 <tr>
                                     <td align="center">
                                         <h1 class="mobile-title" style="margin: 0 0 10px 0; font-size: 24px; font-weight: 700; color: #ffffff; line-height: 1.2;">
-                                            📈 Price Above Reached
+                                            Price Above Reached
                                         </h1>
                                         <p style="margin: 0; font-size: 16px; color: #ffffff; opacity: 0.9;">
                                             {{timestamp}}
@@ -630,7 +630,7 @@ export const STOCK_ALERT_LOWER_EMAIL_TEMPLATE = `<!DOCTYPE html>
                                 <tr>
                                     <td align="center">
                                         <h1 class="mobile-title" style="margin: 0 0 10px 0; font-size: 24px; font-weight: 700; color: #ffffff; line-height: 1.2;">
-                                            📉 Price Below Hit
+                                            Price Below Hit
                                         </h1>
                                         <p style="margin: 0; font-size: 16px; color: #ffffff; opacity: 0.9;">
                                             {{timestamp}}
@@ -830,7 +830,7 @@ export const VOLUME_ALERT_EMAIL_TEMPLATE = `<!DOCTYPE html>
                                 <tr>
                                     <td align="center">
                                         <h1 class="mobile-title" style="margin: 0 0 10px 0; font-size: 24px; font-weight: 700; color: #ffffff; line-height: 1.2;">
-                                            📊 Volume Alert
+                                            Volume Alert
                                         </h1>
                                         <p style="margin: 0; font-size: 16px; color: #ffffff; opacity: 0.9;">
                                             {{timestamp}}
@@ -894,7 +894,7 @@ export const VOLUME_ALERT_EMAIL_TEMPLATE = `<!DOCTYPE html>
                             <!-- What This Means -->
                             <div class="dark-info-box" style="background-color: #1f2937; border: 1px solid #374151; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
                                 <h3 class="dark-text" style="margin: 0 0 15px 0; font-size: 18px; font-weight: 600; color: #ffffff;">
-                                    💡 What This Means
+                                    What This Means
                                 </h3>
                                 <p class="mobile-text dark-text-secondary" style="margin: 0; font-size: 16px; line-height: 1.5; color: #9ca3af;">
                                     High volume often indicates increased investor interest, potential news events, or significant price movements. This could signal an opportunity to investigate what's driving the activity.

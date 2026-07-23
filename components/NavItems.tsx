@@ -3,11 +3,11 @@
 import { NAV_ITEMS } from "@/lib/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Star, Settings } from "lucide-react";
+import { LayoutDashboard, Bookmark, Settings } from "lucide-react";
 
 const NAV_ICONS: Record<string, React.ReactNode> = {
     '/': <LayoutDashboard className="h-5 w-5" />,
-    '/watchlist': <Star className="h-5 w-5" />,
+    '/watchlist': <Bookmark className="h-5 w-5" />,
     '/settings': <Settings className="h-5 w-5" />,
 };
 
@@ -30,17 +30,14 @@ const NavItems = ({ initialStocks, isVertical = false }: { initialStocks: StockW
                             <Link
                                 href={href}
                                 className={`
-                                    flex items-center gap-4 px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 relative overflow-hidden group
+                                    flex items-center gap-4 px-4 py-3 rounded-sm text-base font-medium transition-all duration-300 relative overflow-hidden group
                                     ${active
-                                        ? 'text-white bg-blue-600/10'
-                                        : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                                        ? 'text-black bg-white'
+                                        : 'text-gray-400 hover:text-white hover:bg-gray-900'
                                     }
                                 `}
                             >
-                                {active && (
-                                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-500 rounded-r-full shadow-[0_0_10px_rgba(59,130,246,0.8)]" />
-                                )}
-                                <span className={`transition-colors ${active ? 'text-blue-500' : 'text-slate-500 group-hover:text-slate-300'}`}>
+                                <span className={`transition-colors ${active ? 'text-black' : 'text-gray-500 group-hover:text-gray-300'}`}>
                                     {NAV_ICONS[href]}
                                 </span>
                                 {label}
@@ -55,7 +52,7 @@ const NavItems = ({ initialStocks, isVertical = false }: { initialStocks: StockW
                         <Link
                             href={href}
                             className={`
-                                flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-semibold tracking-tight transition-all duration-200
+                                flex items-center gap-3 px-4 py-2.5 rounded-sm text-sm font-semibold tracking-tight transition-all duration-200
                                 ${active
                                     ? 'text-blue-700 bg-blue-50 shadow-sm'
                                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'

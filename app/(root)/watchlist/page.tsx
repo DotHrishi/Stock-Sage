@@ -1,12 +1,12 @@
 import { getWatchlistStocks } from "@/lib/actions/watchlist.actions"
-import YahooFinance from 'yahoo-finance2';
+import { getWatchlistGroups } from "@/lib/actions/watchlistGroup.actions"
+import { getQuotes } from "@/lib/actions/fyers.actions";
 import Link from "next/link";
-import { TrendingUp, ArrowUpRight, ArrowDownRight, Minus, Star, Trash2 } from "lucide-react";
+import { TrendingUp, ArrowUpRight, ArrowDownRight, Minus, Bookmark, Trash2 } from "lucide-react";
 import { WatchlistButton } from "@/components/WatchlistButton";
+import { WatchlistTabs } from "@/components/WatchlistTabs";
 
 export const dynamic = 'force-dynamic';
-
-const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey'] });
 
 const TrendIcon = ({ trend }: { trend: 'up' | 'down' | 'flat' }) => {
     if (trend === 'up') return <ArrowUpRight className="h-4 w-4 text-teal-600" />
@@ -20,50 +20,68 @@ const TrendColor = (trend: 'up' | 'down' | 'flat') => {
     return 'text-gray-500'
 }
 
-export default async function WatchlistPage() {
-    const savedStocks = await getWatchlistStocks();
+export default async function WatchlistPage({
+    searchParams
+}: {
+    searchParams: Promise<{ groupId?: string }>
+}) {
+    const { groupId } = await searchParams;
     
-    let marketData: any[] = [];
+    // Fetch all user groups
+    const groups = await getWatchlistGroups();
+    
+    // Determine active group
+    const activeGroupId = groupId && groups.some(g => g._id === groupId) 
+        ? groupId 
+        : (groups.length > 0 ? groups[0]._id : null);
+
+    const savedStocks = activeGroupId ? await getWatchlistStocks(activeGroupId) : [];
+    
+    let marketData: Record<string, any> = {};
     if (savedStocks.length > 0) {
         try {
-            // Some stocks might not have .NS or might be US stocks, yahoo finance will resolve them
-            marketData = await yahooFinance.quote(savedStocks.map(s => s.symbol));
+            const symbols = savedStocks.map(s => s.symbol);
+            marketData = await getQuotes(symbols);
         } catch (error) {
-            console.error("Error fetching yahoo data for watchlist", error);
+            console.error("Error fetching data for watchlist", error);
         }
     }
 
     const mergedData = savedStocks.map(stock => {
-        const data = marketData.find(m => m.symbol === stock.symbol || m.symbol.replace('.NS', '') === stock.symbol);
-        const price = data?.regularMarketPrice || 0;
-        const change = data?.regularMarketChange || 0;
-        const changePercent = data?.regularMarketChangePercent || 0;
+        const data = marketData[stock.symbol];
+        
+        const price = data?.price || 0;
+        const change = data?.change || 0;
+        const changePercent = data?.changePct || 0;
         const trend = change >= 0 ? (change === 0 ? 'flat' : 'up') : 'down';
 
         return {
             ...stock,
-            price: new Intl.NumberFormat('en-IN', { style: 'currency', currency: data?.currency || 'INR' }).format(price),
+            price: new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(price),
             change: new Intl.NumberFormat('en-IN', { maximumFractionDigits: 2 }).format(Math.abs(change)),
             changePercent: `${change >= 0 ? '+' : '-'}${Math.abs(changePercent).toFixed(2)}%`,
             trend: trend as 'up' | 'down' | 'flat',
-            marketState: data?.marketState || 'REGULAR'
+            marketState: 'REGULAR'
         }
     });
 
     return (
         <div className="space-y-6">
             <div>
-                <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                    <Star className="h-6 w-6 fill-yellow-400 text-yellow-400" />
-                    My Watchlist
+                <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2 mb-4">
+                    <Bookmark className="h-6 w-6 fill-teal-400 text-teal-400" />
+                    My Watchlists
                 </h1>
-                <p className="text-sm text-gray-500 mt-1">Monitor your favorite stocks in real-time.</p>
+                
+                {groups.length > 0 && activeGroupId && (
+                    <WatchlistTabs groups={groups} activeGroupId={activeGroupId} />
+                )}
             </div>
 
             {mergedData.length === 0 ? (
-                <div className="bg-white border border-gray-200 rounded-xl p-12 text-center shadow-sm">
-                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-yellow-50 mb-4">
-                        <Star className="h-6 w-6 text-yellow-500" />
+                <div className="bg-white border border-gray-200 rounded-sm p-12 text-center shadow-sm">
+                    <div className="mx-auto w-12 h-12 rounded-full bg-teal-50 flex items-center justify-center mb-4">
+                        <Bookmark className="h-6 w-6 text-teal-500" />
                     </div>
                     <h2 className="text-lg font-semibold text-gray-900 mb-2">No stocks in your watchlist</h2>
                     <p className="text-sm text-gray-500 max-w-sm mx-auto mb-6">
@@ -71,7 +89,7 @@ export default async function WatchlistPage() {
                     </p>
                 </div>
             ) : (
-                <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                <div className="bg-white border border-gray-200 rounded-sm overflow-hidden shadow-sm">
                     <div className="overflow-x-auto">
                         <table className="w-full text-left text-sm">
                             <thead className="bg-gray-50 border-b border-gray-100 text-gray-500">
@@ -105,7 +123,7 @@ export default async function WatchlistPage() {
                                             <WatchlistButton 
                                                 symbol={stock.symbol} 
                                                 company={stock.company} 
-                                                initialIsWatchlisted={true} 
+                                                initialWatchlistedGroupIds={activeGroupId ? [activeGroupId] : []}
                                             />
                                         </td>
                                     </tr>
